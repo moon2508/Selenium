@@ -1,6 +1,9 @@
 package Lesson;
 import java.lang.Exception.*;
+import java.time.Duration;
 
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.Assert.*;
 import org.openqa.selenium.*;
@@ -39,11 +42,16 @@ public class Dropdown {
         WebElement button = driver.findElement(By.xpath("//button[@class= 'btn btn-default']"));
         button.click();
         //Print Distributor name
+        //wait element apprearance
+        WebDriverWait webDriverWait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='my-3 text-left']")));
+
+        String txt = driver.findElement(By.cssSelector(".bg-white.rounded-lg.p-3>h3")).getText();
+        System.out.println("Distributor name: " + txt );
 
 
-
-        Thread.sleep(2000);
-//        driver.quit();
+        Thread.sleep(3000);
+        driver.quit();
 
     }
 }
