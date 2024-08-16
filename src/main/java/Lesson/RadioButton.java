@@ -8,28 +8,37 @@ import org.testng.Assert;
 
 public class RadioButton {
     public static void main(String[] args) throws InterruptedException {
+        //define elements
+        String webUrl = "https://demoqa.com/automation-practice-form";
+        String radioBtn = "//label[contains(text(),'Female')]";
+
+
+
         WebDriver driver = new ChromeDriver();
         // get url
-        driver.get("https://demoqa.com/automation-practice-form");
+        driver.get(webUrl);
+        Thread.sleep(3000);
+
         //choose radio button
-        WebElement radBtn = driver.findElement(By.xpath("//*[@id = 'gender-radio-2']"));
+        WebElement radBtn = driver.findElement(By.xpath(radioBtn));
         // check radio button isSelected
-        boolean isSelected = radBtn.isSelected();
-        if(isSelected == false){
-            WebElement btnRadlabel= driver.findElement(By.xpath("//label[@for ='gender-radio-2']"));
-            btnRadlabel.click();
+
+        if(!radBtn.isSelected()){//return true
+            System.out.println("Radio Button is not selected");
+            radBtn.click();
+
         }
-        else
+        else//return false
         {
             System.out.println("Radio Button is selected");
         }
-
-        boolean isChecked = radBtn.isSelected();
-        System.out.println("Sport Checked: " + isChecked);
+        Thread.sleep(3000);
+        //verify IF/ASSERT ket qua chon
+        Assert.assertTrue(radBtn.isSelected(),"Verify is failed");
 
         Thread.sleep(2000);
 
-        driver.quit();
+//        driver.quit();
 
 
 
