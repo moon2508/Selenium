@@ -12,9 +12,7 @@ public class Selection {
 
     public static void main(String[] args) throws InterruptedException {
         String webUrl = "https://react.semantic-ui.com/maximize/dropdown-example-search-selection";
-        String searchSelect = "//input[@class='search']";
         String valueSelect = "Benin";
-        String textBox = "//body/div[@id='root']/div[1]/div[1]/div[1]";
 
         WebDriver driver = new ChromeDriver();
 
@@ -22,17 +20,17 @@ public class Selection {
         driver.get(webUrl);
         Thread.sleep(1000);
         //find element
-        WebElement elementSel = driver.findElement(By.xpath(searchSelect));
+        WebElement elementSel = driver.findElement(By.xpath("//input[@class='search']"));
         elementSel.click();
 
         elementSel.sendKeys(valueSelect);
         elementSel.sendKeys(Keys.ENTER);
 
         //Verify data
-        WebElement data = driver.findElement(By.xpath(textBox));
-        Assert.assertEquals(data.getText(),valueSelect);
+        WebElement selectedValue = driver.findElement(By.xpath("//div[@class='divider text']"));
+        Assert.assertEquals(selectedValue.getText(),valueSelect);
         Thread.sleep(2000);
-//        driver.quit();
+        driver.quit();
     }
 
 }

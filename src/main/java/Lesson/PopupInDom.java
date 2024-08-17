@@ -8,17 +8,12 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 
 public class PopupInDom {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 
 
     //define elemts
     String weburl ="https://ngoaingu24h.vn/";
-    String loginBtn ="//body/div[@id='__next']/div[3]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[3]/button[1]";
-    String popup ="//body/div[@id='custom-dialog']/div[3]/div[1]";
-    String userTxtBox="//input[@placeholder='Tài khoản đăng nhập']";
-    String passTxtBox="//input[@placeholder='Mật khẩu']";
     String value ="automationfc";
-    String submitBtn ="//body/div[@id='custom-dialog']/div[3]/div[1]/div[1]/form[1]/div[4]/button[1]";
     String expectedMessage ="Tài khoản không tồn tại ";
 
 
@@ -28,22 +23,27 @@ public class PopupInDom {
     driver.get(weburl);
 
     //click Dang nhap button
-        driver.findElement(By.xpath(loginBtn)).click();
+        driver.findElement(By.xpath("//button[contains(text(),'Đăng nhập')]")).click();
 
     //check popup displayed
-        WebElement popupShow = driver.findElement(By.xpath(popup));
-        Assert.assertTrue(popupShow.isDisplayed());
+        WebElement popup = driver.findElement(By.xpath("//div[@class='MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper custom-dialog-paper MuiDialog-paperScrollPaper MuiDialog-paperWidthSm css-67lmme']"));
+        Assert.assertTrue(popup.isDisplayed());
 
     //Type us= pw= automationfc
-        driver.findElement(By.xpath(userTxtBox)).sendKeys(value);
-        driver.findElement(By.xpath(passTxtBox)).sendKeys(value);
+        driver.findElement(By.xpath("//input[@placeholder='Tài khoản đăng nhập']"))
+                .sendKeys(value);
+        driver.findElement(By.xpath("//input[@placeholder='Mật khẩu']")).
+                sendKeys(value);
 
     //click Dang nhap button
-        driver.findElement(By.xpath(submitBtn)).click();
+        driver.findElement(By.xpath("//button[contains(text(),'Đăng nhập')]"))
+                .click();
 
     //verify message
 
-        Alert alert = driver.switchTo().alert();
-        Assert.assertEquals(alert.getText(),expectedMessage);
+        Alert alert1 = driver.switchTo().alert();
+        Assert.assertEquals(alert1.getText(),expectedMessage);
+        Thread.sleep(1000);
+        driver.quit();
     }
 }

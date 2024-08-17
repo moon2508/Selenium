@@ -10,34 +10,29 @@ import org.openqa.selenium.support.ui.Select;
 public class Dropdown {
     public static void main(String[] args )throws InterruptedException
     {
-        //define element
-        String webUrl = "https://www.rode.com/wheretobuy";
-        String dropDown = "//select[@id='country']";
-        String popup ="//div[@id='RODE-GDPRx']";
-        String allowButton ="//div[contains(text(),'Allow All')]";
-        String searchButton ="//button[contains(text(),'Search')]";
-        String distributor="//h4[@class='text-left']";
 
+        String webUrl = "https://www.rode.com/wheretobuy";
         String optionValue = "Vietnam";
         WebDriver driver = new ChromeDriver();
 
         // Access website
         driver.get(webUrl);
         //can waiting web
-        Thread.sleep(2000);
+        Thread.sleep(1000);
 
         //Can check popup truoc khi click elements
-        if(driver.findElement(By.xpath(popup)).isDisplayed()){
+        WebElement popup =driver.findElement(By.xpath("//div[@id='RODE-GDPRx']"));
+        if(popup.isDisplayed()){
             System.out.println("Popup is displayed. Please click Allow all button");
             //click button
-            driver.findElement(By.xpath(allowButton)).click();
+            driver.findElement(By.xpath("//div[contains(text(),'Allow All')]")).click();
             System.out.println("Popup is closed");
 
         }else {
             System.out.println("Popup is not displayed");
         }
         // find Dropdown
-        WebElement dropdown = driver.findElement(By.xpath(dropDown));
+        WebElement dropdown = driver.findElement(By.xpath("//select[@id='country']"));
         Select options = new Select(dropdown);
 
         //Check button isMultiSelect?
@@ -50,21 +45,23 @@ public class Dropdown {
         // choose Vietnam value
         options.selectByValue(optionValue);
         //Verify selected value
-        Assert.assertEquals(options.getFirstSelectedOption().getAttribute("value"),optionValue, "Verify selected value is failed");
+        Assert.assertEquals(options.getFirstSelectedOption().getAttribute("value"),optionValue);
 
         //press into Search button
-        driver.findElement(By.xpath(searchButton)).click();
+        WebElement searchBtn = driver.findElement(By.xpath("//button[contains(text(),'Search')]"));
+        searchBtn.click();
         Thread.sleep(3000);
         //print Distributors
         //Get list
-        List<WebElement> distributors = driver.findElements(By.xpath(distributor));
+        List<WebElement> distributors = driver.findElements(By.xpath("//h4[@class='text-left']"));
         int count = distributors.size();
         System.out.println("Number of distributors:"+ count);
         for(int i = 0; i< count; i++){
             System.out.println((i+1) + " Distributor Name: " + distributors.get(i).getText());
 
         }
-        Thread.sleep(3000);
+        Thread.sleep(1000);
+        driver.quit();
 
 
 
