@@ -13,7 +13,6 @@ public class WindowTab {
     public static void main(String[] args) throws InterruptedException {
         //define elements
         String webUrl ="https://automationfc.github.io/basic-form/index.html";
-        String ggBtn = "//a[contains(text(),'GOOGLE')]";
         String expectedTitle ="Google";
 
 
@@ -24,17 +23,16 @@ public class WindowTab {
 
 
         //Click 'Google'
-        driver.findElement(By.xpath(ggBtn)).click();
+        driver.findElement(By.xpath("//a[contains(text(),'GOOGLE')]")).click();
         Thread.sleep(2000);
         //Verify title Google
-        //get tabs
+
 
         for (String tab : driver.getWindowHandles()) {
             driver.switchTo().window(tab);
         }
-        String actualTitle = driver.getTitle();
 
-        Assert.assertEquals(actualTitle, expectedTitle);
+        Assert.assertEquals(driver.getTitle(), expectedTitle);
 
         //Switch parent tab
         driver.switchTo().window(originalWindow);

@@ -8,12 +8,10 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 
 public class Prompt {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         //define element
         String webUrl="https://automationfc.github.io/basic-form/index.html";
-        String promptBtn ="//button[contains(text(),'Click for JS Prompt')]";
         String expectedMessage ="I am a JS prompt";
-        String result ="//p[@id='result']";
         String value ="hangthanh";
 
 
@@ -21,20 +19,22 @@ public class Prompt {
 
         //get url
         driver.get(webUrl);
+        Thread.sleep(1000);
 
         //click JS prompt button
-        driver.findElement(By.xpath(promptBtn)).click();
+        driver.findElement(By.xpath("//button[contains(text(),'Click for JS Prompt')]")).click();
 
         //verify message
         Alert alert = driver.switchTo().alert();
-        String text = alert.getText();
-        Assert.assertEquals(text,expectedMessage);
+        Assert.assertEquals(alert.getText(),expectedMessage);
 
         //Type value and verify value
         alert.sendKeys(value);
         alert.accept();
-        String actualResult = driver.findElement(By.xpath(result)).getText();
-        Assert.assertEquals(actualResult,"You entered: " + value);
+        WebElement resultMessage = driver.findElement(By.xpath("//p[@id='result']"));
+        Assert.assertEquals(resultMessage.getText(),"You entered: " + value);
+        Thread.sleep(1000);
+        driver.quit();
 
     }
 }
