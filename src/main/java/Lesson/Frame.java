@@ -36,7 +36,7 @@ public class Frame {
 
         //verify Password textbox
 
-//        driver.switchTo().defaultContent(); 
+
         WebElement passTxtBtn = driver.findElement(By.id("keyboard"));
         Assert.assertTrue(passTxtBtn.isDisplayed());
 
