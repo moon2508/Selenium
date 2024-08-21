@@ -1,15 +1,10 @@
-package Lesson;
+package Lesson1;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-
-import java.time.Duration;
 
 public class Frame {
     public static void main(String[] args) throws InterruptedException {
@@ -31,15 +26,17 @@ public class Frame {
 
 
        driver.findElement(By.xpath("//a[contains(text(), 'CONTINUE')]")).click();
-       Thread.sleep(5000);
+       Thread.sleep(15000);
 
 
         //verify Password textbox
 
-//        driver.switchTo().defaultContent();
-        WebElement passTxtBtn = driver.findElement(By.id("keyboard"));
+        driver.switchTo().defaultContent();
+        WebElement passTxtBtn = driver.findElement(By.xpath("//input[@id='keyboard']"));
         Assert.assertTrue(passTxtBtn.isDisplayed());
 
+        Thread.sleep(1000);
+        driver.quit();
 
     }
 }

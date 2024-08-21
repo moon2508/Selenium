@@ -1,4 +1,4 @@
-package Lesson;
+package Lesson1;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -10,7 +10,7 @@ public class PopupRandom {
     public static void main(String[] args) throws InterruptedException {
         //define element
         String webUrl ="https://dehieu.vn/";
-        String expectedUrl ="https://dehieu.vn/dang-nhap";
+        String expectedUrl ="https://dehieu.vn/signin?redirect=https%3A%2F%2Fdehieu.vn%2F";
 
         WebDriver driver =  new ChromeDriver();
         //get url
@@ -30,7 +30,7 @@ public class PopupRandom {
 
         //verify url
         String currentUrl = driver.getCurrentUrl();
-        Assert.assertEquals(currentUrl,expectedUrl);
+        Assert.assertEquals(currentUrl,expectedUrl, "Current url "+ currentUrl);
         Thread.sleep(1000);
         driver.quit();
     }

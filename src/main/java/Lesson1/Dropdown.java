@@ -1,4 +1,4 @@
-package Lesson;
+package Lesson1;
 
 import java.util.List;
 import org.testng.Assert;
@@ -54,12 +54,10 @@ public class Dropdown {
         //print Distributors
         //Get list
         List<WebElement> distributors = driver.findElements(By.xpath("//h4[@class='text-left']"));
-        int count = distributors.size();
-        System.out.println("Number of distributors:"+ count);
-        for(int i = 0; i< count; i++){
-            System.out.println((i+1) + " Distributor Name: " + distributors.get(i).getText());
+        for  (WebElement distributor: distributors){
+        System.out.println("Distributor name: " + distributor.getText());
+    }
 
-        }
         Thread.sleep(1000);
         driver.quit();
 

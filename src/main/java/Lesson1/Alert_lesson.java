@@ -1,40 +1,39 @@
-package Lesson;
+package Lesson1;
 
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.Alert;
 import org.testng.Assert;
 
-public class Prompt {
+public class Alert_lesson {
     public static void main(String[] args) throws InterruptedException {
         //define element
         String webUrl="https://automationfc.github.io/basic-form/index.html";
-        String expectedMessage ="I am a JS prompt";
-        String value ="hangthanh";
-
+        String expectMessageAlert = "I am a JS Alert";
+        String expectMessage = "You clicked an alert successfully";
 
         WebDriver driver = new ChromeDriver();
-
         //get url
         driver.get(webUrl);
         Thread.sleep(1000);
 
-        //click JS prompt button
-        driver.findElement(By.xpath("//button[contains(text(),'Click for JS Prompt')]")).click();
+        //choose Click for js allert button
+        WebElement alertBtn = driver.findElement(By.xpath("//button[contains(text(),'Click for JS Alert')]"));
+        alertBtn.click();
 
-        //verify message
+        //verify message - using Assert
         Alert alert = driver.switchTo().alert();
-        Assert.assertEquals(alert.getText(),expectedMessage);
+        Assert.assertEquals(alert.getText(),expectMessageAlert);
 
-        //Type value and verify value
-        alert.sendKeys(value);
+
+        //Click OK in popup
         alert.accept();
+        //verify message result - using Assert
         WebElement resultMessage = driver.findElement(By.xpath("//p[@id='result']"));
-        Assert.assertEquals(resultMessage.getText(),"You entered: " + value);
+        Assert.assertEquals(resultMessage.getText(), expectMessage);
         Thread.sleep(1000);
         driver.quit();
-
     }
 }
