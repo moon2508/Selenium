@@ -13,24 +13,26 @@ import java.util.List;
 public class UploadFile {
     public static void main(String[] args) throws InterruptedException {
         String url ="https://blueimp.github.io/jQuery-File-Upload/";
-//        String path ="H:/";
-        String image1 ="H:/image1.png";
-        String image2 ="H:/image2.png";
-        String image3 ="H:/image3.png";
-
+//        String image1 ="H:/image1.png";
+//        String image2 ="H:/image2.png";
+//        String image3 ="H:/image3.png";
+        String image1 ="D:/image1.png";
+        String image2 ="D:/image2.png";
+        String image3 ="D:/image3.png";
         //get url
         WebDriver driver = new ChromeDriver();
         driver.get(url);
+        Thread.sleep(1000);
 
         //sendkeys image
         WebElement addBtn = driver.findElement(By.xpath("//input[@name='files[]']"));
 
-        addBtn.sendKeys(image1);
-        Thread.sleep(3000);
+        addBtn.sendKeys(image1 );
+//        Thread.sleep(3000);
         addBtn.sendKeys(image2);
-        Thread.sleep(3000);
+//        Thread.sleep(3000);
         addBtn.sendKeys(image3);
-        Thread.sleep(3000);
+//        Thread.sleep(3000);
 
         //Check upload process successfully
         List <WebElement> file = driver.findElements(By.xpath("//p[@class='name']"));
