@@ -23,7 +23,7 @@ public class Visible {
         //Click start BTN
         driver.findElement(By.xpath("//button[contains(text(),'Start')]")).click();
 
-        // waiting icon
+        // waiting result
         WebDriverWait webDriverWait = new WebDriverWait(driver, Duration.ofSeconds(10));
         webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='finish']")));
 

@@ -26,7 +26,11 @@ public class Invisible {
 
         // waiting icon
         WebDriverWait webDriverWait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        webDriverWait.until(ExpectedConditions.invisibilityOfElementWithText(By.xpath("//div[@id='finish']"),expectedResult));
+        webDriverWait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("loading")));
+
+        WebElement result = driver.findElement(By.xpath("//div[@id='finish']"));
+        Assert.assertEquals(result.getText(),expectedResult);
+
 
         Thread.sleep(1000);
         driver.quit();
