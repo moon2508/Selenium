@@ -1,4 +1,4 @@
-package Lesson;
+package Lesson1;
 
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
@@ -14,7 +14,7 @@ public class PopupInDom {
     //define elemts
     String weburl ="https://ngoaingu24h.vn/";
     String value ="automationfc";
-    String expectedMessage ="Tài khoản không tồn tại ";
+    String expectedMessage ="Bạn đã nhập sai tài khoản hoặc mật khẩu!";
 
 
     WebDriver driver = new ChromeDriver();
@@ -26,7 +26,7 @@ public class PopupInDom {
         driver.findElement(By.xpath("//button[contains(text(),'Đăng nhập')]")).click();
 
     //check popup displayed
-        WebElement popup = driver.findElement(By.xpath("//div[@class='MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper custom-dialog-paper MuiDialog-paperScrollPaper MuiDialog-paperWidthSm css-67lmme']"));
+        WebElement popup = driver.findElement(By.xpath("//button[contains(text(),'Đăng nhập')]"));
         Assert.assertTrue(popup.isDisplayed());
 
     //Type us= pw= automationfc
