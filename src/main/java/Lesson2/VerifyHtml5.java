@@ -14,6 +14,7 @@ public class VerifyHtml5 {
        //get url
         WebDriver driver = new ChromeDriver();
         driver.get(url);
+
         Thread.sleep(1000);
 
         //click login
