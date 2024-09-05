@@ -7,6 +7,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
+import java.text.DecimalFormat;
+
 public class Project {
 
     public  void login(WebDriver driver, String url, String username, String password) throws InterruptedException {
@@ -40,7 +42,7 @@ public class Project {
     public void chooseColor(WebDriver driver, String color) throws InterruptedException {
         //choose color
         driver.findElement(By.xpath("//label[@data-name='" + color +"']")).click();
-        Thread.sleep(1000);
+        Thread.sleep(2000);
     }
     public void chooseSize(WebDriver driver, String size) throws InterruptedException {
         //choose size
@@ -48,15 +50,17 @@ public class Project {
         Thread.sleep(1000);
 
     }
-    public void setCount(WebDriver driver, String count){
+    public void setCount(WebDriver driver, int count) throws InterruptedException {
         WebElement inputValue = driver.findElement(By.xpath("//input[@id='quantity']"));
         inputValue.clear();
-        inputValue.sendKeys(count);
+        inputValue.sendKeys(String.valueOf(count));
+        Thread.sleep(1000);
 
     }
-    public void buyProduct(WebDriver driver, String color, String size) throws InterruptedException {
+    public void buyProduct(WebDriver driver, String color, String size, int count) throws InterruptedException {
         chooseColor(driver,color);
         chooseSize(driver, size);
+        setCount(driver,count);
         //Click Mua
         driver.findElement(By.xpath("//button[@id='addQuickCart']")).click();
         Thread.sleep(10000);
@@ -64,9 +68,10 @@ public class Project {
 
     }
 
-    public void addToCart(WebDriver driver, String color, String size) throws InterruptedException {
+    public void addToCart(WebDriver driver, String color, String size,int count) throws InterruptedException {
         chooseColor(driver, color);
         chooseSize(driver,size);
+        setCount(driver, count);
         driver.findElement(By.xpath("//button[@id='add-to-cart']")).click();
         Thread.sleep(1000);
     }
@@ -80,14 +85,20 @@ public class Project {
         return name.getText();
 
     }
-    public  String getPrice(WebDriver driver){
+    public  int getPrice(WebDriver driver){
         WebElement price = driver.findElement(By.xpath("//span[@class='pro-price tp_product_detail_price']"));
-        return  price.getText();
+        //del last letter
+        String cost =  price.getText().replaceAll(".$", "");
+        //convert to number
+        String formattedNumber = cost.replaceAll(",","") ;
+        //del special letter
+        return Integer.parseInt(formattedNumber);
+
     }
 
 
 
-    public void TC01(WebDriver driver, String url, String username, String password, String value, String color, String size) throws InterruptedException {
+    public void TC01(WebDriver driver, String url, String username, String password, String value, String color, String size,int count) throws InterruptedException {
         //login
         login(driver, url, username, password);
         Thread.sleep(1000);
@@ -104,10 +115,10 @@ public class Project {
         String name = getNameProduct(driver);
 //        System.out.println(name);
         Assert.assertEquals(name, value);
-        String priceProduct = getPrice(driver);
+        int priceProduct = getPrice(driver) * count;
 
         //Click Mua
-        buyProduct(driver,color, size);
+        buyProduct(driver,color, size,count);
         Thread.sleep(1000);
 
 
@@ -117,15 +128,16 @@ public class Project {
         Thread.sleep(1000);
         String price = driver.findElement(By.xpath("//span[@class='order-summary-emphasis']")).getAttribute("innerHTML");
 //        System.out.println(price);
-        String count = driver.findElement(By.xpath("//input[@class='tc line-item-qty item-quantity']")).getAttribute("value");
+        String counts = driver.findElement(By.xpath("//input[@class='tc line-item-qty item-quantity']")).getAttribute("value");
 //        System.out.println(count);
         Assert.assertEquals(getInfo, name + " - " + size + " - " + color);
-        Assert.assertEquals(price.replaceAll("\\s+", ""),priceProduct);
-        Assert.assertEquals(count, "1");
+        //del space and convert to number
+        Assert.assertEquals(price.replaceAll("\\s+", "").replaceAll(",","").replaceAll(".$", ""),String.valueOf(priceProduct));
+        Assert.assertEquals(counts, String.valueOf(count));
 
     }
 
-    public void TC02(WebDriver driver, String url, String username, String password, String value, String color, String size) throws InterruptedException {
+    public void TC02(WebDriver driver, String url, String username, String password, String value, String color, String size, int count) throws InterruptedException {
         //login
         login(driver, url, username, password);
         Thread.sleep(1000);
@@ -142,10 +154,10 @@ public class Project {
         String name = getNameProduct(driver);
 //        System.out.println(name);
         Assert.assertEquals(name, value);
-        String priceProduct = getPrice(driver);
+        int priceProduct = getPrice(driver) * count;
 
         //Click ADD to cart
-        addToCart(driver,color, size);
+        addToCart(driver,color, size, count);
         Thread.sleep(1000);
 
         //process order
@@ -158,15 +170,15 @@ public class Project {
         Thread.sleep(1000);
         String price = driver.findElement(By.xpath("//span[@class='order-summary-emphasis']")).getAttribute("innerHTML");
 //        System.out.println(price);
-        String count = driver.findElement(By.xpath("//input[@class='tc line-item-qty item-quantity']")).getAttribute("value");
+        String counts = driver.findElement(By.xpath("//input[@class='tc line-item-qty item-quantity']")).getAttribute("value");
 //        System.out.println(count);
         Assert.assertEquals(getInfo, name + " - " + size + " - " + color);
-        Assert.assertEquals(price.replaceAll("\\s+", ""),priceProduct);
-        Assert.assertEquals(count, "1");
+        Assert.assertEquals(price.replaceAll("\\s+", "").replaceAll(".$", "").replaceAll(",",""),String.valueOf(priceProduct));
+        Assert.assertEquals(counts, String.valueOf(count));
 
     }
 
-    public void TC03(WebDriver driver, String url, String username, String password, String value, String color, String size) throws InterruptedException {
+    public void TC03(WebDriver driver, String url, String username, String password, String value, String color, String size, int count) throws InterruptedException {
         //login
         login(driver, url, username, password);
         Thread.sleep(1000);
@@ -183,11 +195,13 @@ public class Project {
         String name = getNameProduct(driver);
 //        System.out.println(name);
         Assert.assertEquals(name, value);
-        String priceProduct = getPrice(driver);
+        int priceProduct = getPrice(driver) * count;
 
-        //Click ADD to cart
-        addToCart(driver,color, size);
+        //buy 2 products
+        buyProduct(driver, color, size, count);
         Thread.sleep(1000);
+
+
 
         //process order
         processOrder(driver);
@@ -199,11 +213,11 @@ public class Project {
         Thread.sleep(1000);
         String price = driver.findElement(By.xpath("//span[@class='order-summary-emphasis']")).getAttribute("innerHTML");
 //        System.out.println(price);
-        String count = driver.findElement(By.xpath("//input[@class='tc line-item-qty item-quantity']")).getAttribute("value");
+        String counts = driver.findElement(By.xpath("//input[@class='tc line-item-qty item-quantity']")).getAttribute("value");
 //        System.out.println(count);
         Assert.assertEquals(getInfo, name + " - " + size + " - " + color);
-        Assert.assertEquals(price.replaceAll("\\s+", ""),priceProduct);
-        Assert.assertEquals(count, "1");
+        Assert.assertEquals(price.replaceAll("\\s+", ""),String.valueOf(priceProduct));
+        Assert.assertEquals(counts, "1");
 
     }
     public static void main(String[] args) throws InterruptedException {
@@ -213,20 +227,28 @@ public class Project {
         String product1 = "Áo Tuyển Tập Ngoại Giao Capybara";
         String color ="Forest Green";
         String size = "XL";
+        String count = "2";
 
         WebDriver driver = new ChromeDriver();
         driver.manage().window().maximize();
         Project project = new Project();
 
         //buy a product
-//        project.TC01(driver,url,username,password,product1, color, size );
+//        project.TC01(driver,url,username,password,product1, color, size ,1);
 
-        //add to cart
-        project.TC02(driver,url,username,password,product1, color, size );
+        //add  a product to cart
+//        project.TC02(driver,url,username,password,product1, color, size,1);
+
+        //buy 2 products
+//        project.TC01(driver,url,username,password,product1, color, size ,2);
+
+        //add 2 products to cart
+//        project.TC02(driver,url,username,password,product1, color, size,2);
+
 
 
         Thread.sleep(1000);
-//        driver.quit();
+        driver.quit();
 
 
     }
