@@ -5,11 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
-
 import java.util.List;
-
-
-
 public class Project {
 
     public  void login(WebDriver driver, String url, String username, String password) throws InterruptedException {
